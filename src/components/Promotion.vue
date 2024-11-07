@@ -3,7 +3,10 @@
         <img :src="imgUrl" id="promoPic">
         <div class="info">
             <div class="text"> {{ desc }}</div>
-            <MyButton :activity="activities" :btnColor="btnColor"></MyButton>
+            <MyButton 
+            :activity="activities" 
+            :btnColor="btnColor"
+            @click="shopNow(desc)"></MyButton>
         </div>
         
     </div>
@@ -17,6 +20,18 @@ export default {
         paperColor : String,
         btnColor : String,
         activities : String,
+    },
+    data(){
+        return{
+            promotion : {
+                title : "healthy brf",
+            }
+        }
+    },
+    methods :{
+        shopNow(props){
+            alert("Let's shop: " + this.desc);
+        }
     }
 }
 </script>
@@ -55,7 +70,6 @@ export default {
 #promoPic{
     width: 350px;
     height: 300px;
-    
     position: absolute;
     bottom: 0;
     right: 0;
