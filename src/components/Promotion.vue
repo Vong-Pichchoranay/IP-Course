@@ -4,7 +4,6 @@
         <div class="info">
             <div class="text"> {{ desc }}</div>
             <MyButton 
-            :activity="activities" 
             :btnColor="btnColor"
             @click="shopNow(desc)"></MyButton>
         </div>
@@ -19,7 +18,6 @@ export default {
         imgUrl : String,
         paperColor : String,
         btnColor : String,
-        activities : String,
     },
     data(){
         return{

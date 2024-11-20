@@ -1,6 +1,6 @@
 <template>
     <div class="btn">
-        <span id="option">{{ activity }}</span>
+        <span id="option">Shop Now</span>
         <img id="arrow" src="../assets/whrightarrow.png"></img>
     </div>
 </template>
@@ -8,7 +8,6 @@
 <script>
 export default{
     props : {
-        activity : String,
         btnColor : String,
     }
 }

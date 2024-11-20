@@ -7,17 +7,16 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+    
+
     props : {
         imgUrl : String,
         pname : String,
-        qty : String,
+        qty : Number,
         paperColor : String,
-        borderColor : String,
-        RedColor : Number,
-        GreenColor: Number,
-        BlueColor : Number,
-    }
+    },
 }
 </script>
 
