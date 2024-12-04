@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-import axios from 'axios'
 
 export const useProductStore = defineStore('product', {
     state: () => ({
@@ -10,46 +9,23 @@ export const useProductStore = defineStore('product', {
     }),
     getters: {
         getCategoriesByGroup(state){
-            // const groupName = "fruits"
-            return (groupName) => state.categories.find((category) => category.group === groupName)
+            return (groupName) => state.categories.filter((category) => category.group === groupName)
+            // return (groupName) => state.categories.find((category) => category.group === groupName)
         },
         
         getProductsByGroup: (state) => {
-
+            return (groupName) => state.products.filter((product) => product.group === groupName)
         },
 
         getProductsByCategory: (state) => {
-
+            return (categId) => state.products.filter((product) => product.categoryId === categId)
         },
 
         getPopularProducts: (state) => {
-
+            return (prodsGroup) => prodsGroup.filter((product) => product.countSold > 10)
         }
     },
     actions: {
-        fetchCategories(){
-            axios.get('http://localhost:3000/api/categories')
-            .then(response => { 
-              // this.categories = response.data;
-              this.categories  = response.data
-              console.log(this.categories)
-            })
-            .catch(error => {
-              console.error('Error fetching data: ', error);
-            })
-          },
-      
-          fetchPromotions(){
-            axios.get("http://localhost:3000/api/promotions")
-            .then(response => {
-              // console.log(response);
-              // this.promotions = response.data;
-              this.promotions = response.data
-              console.log(this.promotions)
-            })
-            .catch(error => {
-              console.error('Error fetching data: ', error);
-            })
-          }
+        
     },
   })    

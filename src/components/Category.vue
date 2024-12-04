@@ -9,8 +9,6 @@
 <script>
 import axios from 'axios'
 export default {
-    
-
     props : {
         imgUrl : String,
         pname : String,

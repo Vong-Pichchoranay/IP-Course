@@ -1,19 +1,21 @@
 <template>
-  <!-- <div>This is my first VueJs Project</div> -->
 
   <div class="screen">
-   
+    <Menu
+    title="Featured Categories"
+    @change-menu="changeMenuCategory"
+    ></Menu>
     <div class='cats'>
-    <template v-for="category in store.categories">
+    <template v-for="category in this.featuredCategories">
       <Category 
       :imgUrl="category.image" 
       :pname="category.name" 
       :qty="category.productCount" 
       :paperColor="category.color">
-    </Category>
+      </Category>
     </template>
     </div>
-    <p> {{ categories }}</p>
+    <!-- <p> {{ categories }}</p> -->
     <div class="promoBoard">
       <template v-for="promotion in store.promotions">
         <Promotion 
@@ -22,6 +24,28 @@
         :paperColor="promotion.color" 
         :btnColor="promotion.buttonColor">
         </Promotion>
+      </template>
+    </div>
+
+    <Menu
+    title="Popular Products"
+    @change-menu="changePopProducts">
+    </Menu>
+
+    <div class="productBoard">
+      <template v-for="product in this.featuredPopProducts">
+        <Product
+        :name="product.name"
+        :rating="product.rating"
+        :size="product.size"
+        :imgUrl="product.image"
+        :price="product.price"
+        :promoPercent="product.promotionAsPercentage"
+        :categoryId="product.categoryId"
+        :instock="product.instock"
+        :countSold="product.countSold"
+        :group="product.group">
+        </Product>
       </template>
     </div>
   </div>
@@ -34,151 +58,76 @@
 import axios from 'axios';
 import Category from './components/Category.vue';
 import Promotion from './components/Promotion.vue';
-import { mapActions } from 'pinia';
 import { useProductStore } from './stores/product';
-import { mapStores } from 'pinia';
 import { mapState } from 'pinia';
-import { mapGetters } from 'vuex';
-
-
 
 
 export default{
-
+  setup(){
+    const store = useProductStore();
+    return { store }
+  },
 
   data(){
     return{
-      store : useProductStore(),
-      currentGroupName : 'fruits',
+      currentGroupName : "All",
+      currentCategoryId : 1,
 
-      // categories : [],
-      // promotions : [],
-
-      products : [
-        {
-          imgUrl : './src/assets/products/burger.png',
-          name : 'Cake & Milk',
-          qty : '14',
-          paperColor : '#F2FCE4',
-          borderColor : '#81B13D',
-          RedColor : 24,
-          GreenColor : 24,
-          BlueColor : 24,
-
-        },
-        {
-          imgUrl : './src/assets/products/peach.png',
-          name : 'Peach',
-          qty : '17',
-          paperColor : '#FFFCEB',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/kiwi.png',
-          name : 'Organic Kiwi',
-          qty : '21',
-          paperColor : '#ECFFEC',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/apple.png',
-          name : 'Red Apple',
-          qty : '68',
-          paperColor : '#FEEFEA',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/cereal.png',
-          name : 'Snack',
-          qty : '34',
-          paperColor : '#FFF3EB',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/blues.png',
-          name : 'Black Plum',
-          qty : '25',
-          paperColor : '#FFF3FF',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/cabbage.png',
-          name : 'Vegetables',
-          qty : '65',
-          paperColor : '#F2FCE4',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/headphones.png',
-          name : 'Headphone',
-          qty : '33',
-          paperColor : '#FFFCEB',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/apricot.png',
-          name : 'Cake & Milk',
-          qty : '54',
-          paperColor : '#F2FCE4',
-          borderColor : '',
-        },
-        {
-          imgUrl : './src/assets/products/orange.png',
-          name : 'Orange',
-          qty : '63',
-          paperColor : '#FFF3FF',
-          borderColor : '',
-        }
-      ],
-
-      promos : [
-        {
-          desc : 'Everyday Fresh & Clean with Our Products',
-          imgUrl : './src/assets/products/onion.png',
-          paperColor : '#F0E8D5',
-          btnColor : '#3BB77E',
-          activities : 'Shop Now',
-        },
-        {
-          desc : 'Make your Breakfast Healthy and Easy',
-          imgUrl : './src/assets/products/juice.png',
-          paperColor : '#F3E8E8',
-          btnColor : '#3BB77E',
-          activities : 'Shop Now',
-        },
-        {
-          desc : 'The best Organic Products Online',
-          imgUrl : './src/assets/products/veggies.png',
-          paperColor : '#E7EAF3',
-          btnColor : '#FDC040',
-          activities : 'Shop Now',
-        },
-      ],
-      
+      featuredCategories : [],
+      featuredPopProducts : [],
     }
   },
 
   computed : {
 
     ...mapState(useProductStore, {
-      popularProducts: 'getPopularProducts',
+      // groupProducts: 'getCategoriesByGroup',
       categories(store) {
-          return this.store.getCategoriesByGroup(this.currentGroupName)
+        console.log(this.store.getCategoriesByGroup(this.currentGroupName))
+        console.log(this.featuredCategories)
+        return this.store.getCategoriesByGroup(this.currentGroupName)
       },
-      // more goes here
+      productsByGroup(store) {
+        console.log(this.store.getProductsByGroup(this.currentGroupName))
+        return this.store.getProductsByGroup(this.currentGroupName)
+      },
+      productsByCateg(store) {
+        console.log(this.store.getProductsByCategory(this.currentCategoryId))
+        return this.store.getProductsByCategory(this.currentCategoryId)
+      },
+      popularProducts(store){
+        console.log(this.store.getPopularProducts(this.prodsByGroup))
+        return this.store.getPopularProducts(this.prodsByGroup)
+      }
     })
-    // ...mapGetters({
-    //   popularProducts: 'getCategoriesByGroup'
-    //   })
   },
-
-  created() {
-    // this.categories
-  },
-
 
   methods : {
-    ...mapActions(useProductStore, ['fetchCategories', 'fetchPromotions']),
+
+    changeMenuCategory(name){
+      if(name === 'All'){
+        this.featuredCategories = this.store.categories;
+      } else{
+        this.currentGroupName = name
+        this.featuredCategories = this.categories
+        console.log("+++ Current group name : ", name)
+        console.log("+++ Featured cats = ", this.featuredCategories)
+      }
+      
+    },
+    changePopProducts(name){
+      // get prods by groups => get pop prods in that group
+      if(name === 'All'){
+        this.currentGroupName = name
+        this.prodsByGroup = this.store.products
+        this.featuredPopProducts = this.popularProducts;
+      } else{
+        this.currentGroupName = name
+        this.prodsByGroup = this.productsByGroup
+        this.featuredPopProducts = this.popularProducts
+        console.log("+++ Pop prods = ", this.featuredPopProducts)
+      }
+    },
 
 
     createCategories(){
@@ -291,36 +240,149 @@ export default{
         "categoryId" : 1,
         "instock" : 100,
         "countSold" : 15,
-        "group" : "fruits"
+        "group" : "Fruits"
       }),
       axios.post('http://localhost:3000/api/products', {
         "name" : "All Natural Italian-Style Corn",
         "rating" : 4.1,
         "size" : "200g",
-        "image" : "./src/assets/products/mango.png",
+        "image" : "./src/assets/products/corn.png",
         "price" : 2.51,
         "promotionAsPercentage" : 10,
         "categoryId" : 1,
         "instock" : 100,
         "countSold" : 15,
-        "group" : "vegetables"
+        "group" : "Vegetables"
       }),
       axios.post('http://localhost:3000/api/products', {
         "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
         "rating" : 3.8,
         "size" : "600g",
-        "image" : "./src/assets/products/orange.png",
+        "image" : "./src/assets/products/juzi.png",
         "price" : 3.51,
         "promotionAsPercentage" : 10,
         "categoryId" : 1,
         "instock" : 100,
-        "countSold" : 20,
-        "group" : "fruits"
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),
+      axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/chili.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/lemon.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/meat.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/fish.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/steak.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/bacon.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
+      }),axios.post('http://localhost:3000/api/products', {
+        "name" : "Angie's Boomchickapop Sweet & Salty Kettle Orange",
+        "rating" : 3.8,
+        "size" : "600g",
+        "image" : "./src/assets/products/garlic.png",
+        "price" : 3.51,
+        "promotionAsPercentage" : 10,
+        "categoryId" : 1,
+        "instock" : 100,
+        "countSold" : 5,
+        "group" : "Fruits"
       })
     },
 
-    
+    fetchCategories(){
+      axios.get('http://localhost:3000/api/categories')
+      .then(response => { 
+        // this.categories = response.data;
+        this.store.categories  = response.data
+        console.log(this.store.categories)
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      })
+    },
+      
+    fetchPromotions(){
+      axios.get("http://localhost:3000/api/promotions")
+      .then(response => {
+        // console.log(response);
+        // this.promotions = response.data;
+        this.store.promotions = response.data
+        console.log(this.store.promotions)
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      })
+    },
 
+    fetchProducts(){
+      axios.get("http://localhost:3000/api/products")
+      .then(response => {
+        // console.log(response);
+        // this.promotions = response.data;
+        this.store.products = response.data
+        console.log(this.store.products)
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      })
+    }
     
   },
 
@@ -332,6 +394,7 @@ export default{
     // this.createProducts()
     this.fetchCategories()
     this.fetchPromotions()
+    this.fetchProducts()
   }
 }
 </script>
@@ -345,5 +408,12 @@ export default{
     display: flex;
     flex-direction: row;
     margin-bottom: 50px;
+    
+  }
+  .productBoard{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
   }
 </style>
