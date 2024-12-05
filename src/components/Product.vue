@@ -4,8 +4,8 @@
         v-if="promoPercent > 0">-{{ promoPercent }}%</div>
         <img :src="imgUrl" alt="imgurl" class="pimg">
         <p class="subdesc">Hodo Foods</p>
-        <p>{{ name }}</p>
-        <p>({{ rating }})</p>
+        <p class="pname">{{ name }}</p>
+        <p class="pname">({{ rating }})</p>
         <p class="subdesc">{{ size }} gram</p>
         <div class="price">
             <div class="promoPrice">${{ discountedPrice }}</div>
@@ -68,6 +68,7 @@ export default{
     left: 0px;
     width: 58px;
     height: 32px;
+    color: black;
 }
 .subdesc{
     font-size: small;
@@ -86,5 +87,9 @@ export default{
 }
 .ogPrice{
     text-decoration: line-through;
+    color: black
+}
+.pname{
+    color: black;
 }
 </style>

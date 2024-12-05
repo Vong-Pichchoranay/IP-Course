@@ -64,6 +64,7 @@ export default {
     font-weight: 700;
     line-height: 32px;
     font-family: 'QuickSand';
+    color: black;
 }
 #promoPic{
     width: 350px;
