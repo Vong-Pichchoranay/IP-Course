@@ -1,13 +1,13 @@
 <template>
     <div class="test">
         <img :src="imgUrl" id="foodpic">
-        <p id="title"> {{ pname }}</p>
-        <p id="amount"> {{ qty }} items</p>
+        <div id="categoryname"> {{ pname }}</div>
+        <div id="amount"> {{ qty }} items</div>
+       
     </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     props : {
         imgUrl : String,
@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @font-face {
     font-family: 'QuickSand';
     src: url('../assets/fonts/Quicksand/Quicksand-VariableFont_wght.ttf');
@@ -40,11 +40,12 @@ export default {
     border: 1px solid v-bind(borderColor);
     box-shadow: 20px 20px 40px rgba(v-bind(RedColor), v-bind(GreenColor), v-bind(BlueColor), 0.07);
 }
+
 #foodpic{
     width: 120px;
     height: 120px;
 }
-#title{
+#categoryname{
     font-size: 16px;
     font-weight: 700;
     color: #253D4E;

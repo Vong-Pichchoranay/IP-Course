@@ -11,7 +11,6 @@
             <div class="promoPrice">${{ discountedPrice }}</div>
             <div class="ogPrice">${{ price }}</div>
         </div>
-        
     </div>
 </template>
 
@@ -38,7 +37,7 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
 @font-face {
     font-family: 'QuickSand';
     src: url('../assets/fonts/Quicksand/Quicksand-VariableFont_wght.ttf');
