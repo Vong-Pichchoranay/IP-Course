@@ -1,17 +1,9 @@
 <template>
     <div class="page">
-
-        <Header></Header>
-
-        <div class="content">
-            <div class="subcontent">
-                <div>Welcome to Page 1</div>
-                <div>----------------------------------------------------</div>
-                <div>This is Section 1 of Page 1</div>
-            </div>
-        </div>
-        <Footer></Footer>
-
+        <div>----------------------------------------------------</div>
+        <div>This is Section 1 of Page 1</div>
+        <label for="message">Message:</label>
+        <input type="text" id="message" placeholder="Enter message" @input="setMessage($event)">
     </div>
     
 </template>
@@ -19,22 +11,17 @@
 <script>
 
 export default{
+    methods : {
+        setMessage(event){
+            this.$store.state.message1 = event.target.value;
+        }
+    }
 
 }
 </script>
 
-<style>
+<style scoped>
 .page{
-
-}
-.content{
-    width: 1000px;
-    display: flex;
-    flex-direction: row;
-    border: 1px solid black;
-
-}
-.subcontent{
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -42,7 +29,7 @@ export default{
     align-items: center;
     /* background-color: aqua; */
 }
-.subcontent div{
+.page div{
     margin-bottom: 15px;
 }
 </style>

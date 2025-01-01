@@ -1,12 +1,18 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+// import { ref, computed } from 'vue'
+// import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
+// export const useCounterStore = defineStore('counter', {
+//   state : () => ({
+//     message1 : '',
+//     message2: ''
+    
+//   }),
 
-  return { count, doubleCount, increment }
-})
+//   actions : {
+//     getMessage(event){
+//       console.log("hello world");
+//       this.message1 = event.target.data;
+//       console.log(this.message1)
+//     }
+//   },
+// })

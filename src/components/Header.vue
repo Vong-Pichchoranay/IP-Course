@@ -4,9 +4,9 @@
             <div>Header</div>
 
             <div class="pages">
-                <router-link to="/" active-class="my-active-class">Page 1</router-link>
-                <router-link to="/Page2" active-class="my-active-class">Page 2</router-link>
-                <router-link to="/Page3" active-class="my-active-class">Page 3</router-link>
+                <router-link to="/" class="router">Page 1</router-link>
+                <router-link to="/Page2" class="router">Page 2</router-link>
+                <router-link to="/Page3" class="router">Page 3</router-link>
 
             </div>
         </div>
@@ -19,7 +19,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .header{
     width: 1000px;
     padding: 50px;
@@ -29,7 +29,11 @@ export default{
     display: flex;
     flex-direction: row;
 }
-.my-active-class{
-    color: red;
+.router-link-active{
+    color: red !important;
 }
+.router{
+    color: black;
+}
+
 </style>
