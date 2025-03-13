@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
     // --- Get /api/products
     public function getProducts(){
-        return ["message" => "Getting list of products"];
+        $products = Product::all();
+        return $products;
     }
 
     // --- Post /api/products
@@ -18,7 +20,8 @@ class ProductController extends Controller
 
     // --- Get /api/products/{productId}
     public function getProduct($productId){
-        return ["message" => "Getting 1 product base on given productId"];
+        $product = Product::find($productId);
+        return $product;
     }
 
     // --- Patch /api/categories/{productId}
