@@ -28,6 +28,11 @@ class ProductController extends Controller
         $product = Product::find($productId);
         return $product;   
     }    
+
+    // get('/categories/{categoryId}/','getProductsByCategory'
+    public function getProductsByCategory($categoryId) {
+        return Product::where('category_id', $categoryId)->get();
+    }
     
     // --- Patch /api/products/{productId}
     public function updateProduct(Request $request, $productId) {

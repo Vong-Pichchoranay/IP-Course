@@ -17,6 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id')->nullable(false);
             $table->double('price')->nullable(false);
             $table->unsignedBigInteger('quantity')->nullable(false);
+
+            // define FK relations
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

@@ -14,6 +14,7 @@ class CategoryController extends Controller
 
     // --- Post /api/categories
       public function createCategory(Request $request) {
+        $validated = $request->validate(['name' => 'string']);
         $category = new Category();
         $category->name = $request->name;
         $category->save();

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id()->primary();
-            $table->timestamp('payment_date')->nullable(false);
+            $table->timestamp('payment_date');
             $table->string('payment_method',100);
             $table->decimal('amount',10,2);
             $table->unsignedBigInteger('order_id')->nullable(false);
             $table->unsignedBigInteger('customer_id')->nullable(false);
+            $table->timestamps();
 
             // define FK relationship
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
