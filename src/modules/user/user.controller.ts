@@ -13,9 +13,14 @@ import { UserService } from './user.service';
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/:username')
-  getUser(@Param('username') username: string) {
-    return this.userService.getUser(username);
+  @Get()
+  getAllUsers() {
+    return this.userService.getAllUsers();
+  }
+
+  @Get('/:id')
+  getUser(@Param('id') id: number) {
+    return this.userService.getUser(id);
   }
 
   @Post('/users')
@@ -25,15 +30,16 @@ export class UsersController {
     return this.userService.createUser(body);
   }
 
-  @Patch('/users/:username')
+  @Patch('/users/:id')
   updateUser(
+    @Param('id') id: number,
     @Body() body: { username: string; email: string; password: string },
   ) {
-    return this.userService.updateUser(body);
+    return this.userService.updateUser(id, body);
   }
 
-  @Delete('/users/:username')
-  deleteUser(@Param('username') username: string) {
-    return this.userService.deleteUser(username);
+  @Delete('/users/:id')
+  deleteUser(@Param('id') id: number) {
+    return this.userService.deleteUser(id);
   }
 }

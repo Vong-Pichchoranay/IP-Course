@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -13,12 +14,17 @@ import { TaskService } from './task.service';
 export class TasksController {
   constructor(private readonly taskService: TaskService) {}
 
+  @Get()
+  getAllTasks() {
+    return this.taskService.getAllTasks();
+  }
+
   @Get('/:id')
-  getTask(@Param('id') id: string) {
+  getTask(@Param('id', ParseIntPipe) id: number) {
     return this.taskService.getTask(id);
   }
   @Post('/')
-  createTask(@Body() body: any) {
+  createTask(@Body() body: { name: string; description?: string }) {
     return this.taskService.createTask(body);
   }
 
@@ -30,6 +36,11 @@ export class TasksController {
   @Patch('/:id/pending')
   markTaskAsPending(@Body() body: any, @Param('id') id: string) {
     return this.taskService.updateTask(id, body);
+  }
+
+  @Delete()
+  clearTasks() {
+    return this.taskService.deleteAllTasks();
   }
 
   @Delete('/:id')
