@@ -7,8 +7,12 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -24,18 +28,25 @@ export class TasksController {
     return this.taskService.getTask(id);
   }
   @Post('/')
-  createTask(@Body() body: { name: string; description?: string }) {
-    return this.taskService.createTask(body);
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  createTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.taskService.createTask(createTaskDto);
   }
 
   @Patch('/:id/done')
-  markTaskAsDone(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  markTaskAsDone(
+    @Body() updateTaskDto: UpdateTaskDto,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.taskService.updateTask(id, updateTaskDto);
   }
 
   @Patch('/:id/pending')
-  markTaskAsPending(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  markTaskAsPending(
+    @Body() updateTaskDto: UpdateTaskDto,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.taskService.updateTask(id, updateTaskDto);
   }
 
   @Delete()

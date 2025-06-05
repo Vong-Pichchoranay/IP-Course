@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { Repository } from 'typeorm';
+import { CreateTaskDto } from './dto/create-task.dto';
 
 @Injectable()
 export class TaskService {
@@ -13,24 +14,33 @@ export class TaskService {
   getAllTasks() {
     return this.taskRepo.find();
   }
-  getTask(id: number) {
-    return this.taskRepo.findOne({ where: { id } });
+  async getTask(id: number) {
+    const task = await this.taskRepo.findOne({ where: { id } });
+    if (!task) {
+      throw new NotFoundException(`Task with id ${id} does not exist`);
+    }
+    return task;
   }
 
-  createTask(body: Partial<Task>) {
+  createTask(body: CreateTaskDto) {
     const task = this.taskRepo.create(body);
     return this.taskRepo.save(task);
   }
 
-  updateTask(id: string, body: any) {
-    console.log(body);
-    return {
-      name: 'Task 1',
-      description: 'Description of Task 1',
-      createdAt: new Date().toISOString(),
-      completedAt: null,
-      userId: 1,
-    };
+  async updateTask(id: number, body: Partial<Task>) {
+    // find task by id
+    const task = await this.taskRepo.findOne({ where: { id: id } });
+    // update values
+    if (task) {
+      if (body.name) {
+        task.name = body.name;
+      }
+      if (body.description) {
+        task.description = body.description;
+      }
+      // save
+      await this.taskRepo.save(task);
+    }
   }
   deleteTask(id: string) {
     console.log(id);

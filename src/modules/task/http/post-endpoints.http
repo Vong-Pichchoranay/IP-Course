@@ -3,5 +3,6 @@ Content-Type: application/json
 
 {
     "name": "Complete Flutter homework",
-    "description": "lorem ipsum..."
+    "description": "lorem ipsum...",
+    "userId": 2
 }
