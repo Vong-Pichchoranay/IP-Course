@@ -7,11 +7,13 @@
     <h3>Completed Tasks:</h3>
     <TodoLists status="completed" />
     <div class="pending-tasks">
-      <span
-        >You have <span class="pending-num"> {{ nbOfTodo }} </span> tasks
-        pending.</span
-      >
-      <button class="clear-button">Clear All</button>
+      <span>You have 
+        <span class="pending-num"> {{ nbOfTodo }} </span> 
+        tasks pending.
+      </span>
+      <button class="clear" @click="clearAllTodos">
+      Clear All
+      </button>
     </div>
   </div>
 </template>
@@ -29,6 +31,9 @@ export default {
       store,
     };
   },
+  // mounted() {
+  //   this.store.fetchTodos();
+  // },
   components: {
     AddTodo,
     TodoLists,
@@ -51,4 +56,13 @@ export default {
 </script>
 <style>
 @import "https://unicons.iconscout.com/release/v4.0.0/css/line.css";
+
+.clear {
+  cursor: pointer;
+  background-color: rgb(9, 139, 226);
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  color: white;
+}
 </style>
